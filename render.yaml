@@ -10,15 +10,14 @@ services:
       - key: PYTHON_VERSION
         value: 3.12.5
 
-  - type: static
+  - type: static_site
     name: mini-project-frontend
-    env: static
     rootDir: .
     buildCommand: npm ci && npm run build
-    staticPublishPath: build
+    publishPath: build
     envVars:
       - key: REACT_APP_API_URL
         fromService:
           type: web
           name: mini-project-backend
-          property: host
+          property: url
