@@ -23,6 +23,7 @@ export default function App() {
   const [features, setFeatures] = useState(Array(inputFields.length).fill(""));
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const API_BASE_URL = (process.env.REACT_APP_API_URL || '').replace(/\/+$/, '');
 
   const handleChange = (index, value) => {
     const updated = [...features];
@@ -33,7 +34,7 @@ export default function App() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5000/predict', {
+      const response = await axios.post(`${API_BASE_URL}/predict`, {
         features: features,
       });
       setResult(response.data);

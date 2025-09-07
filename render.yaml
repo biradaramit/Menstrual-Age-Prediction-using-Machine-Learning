@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: mini-project-backend
+    env: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 2 -b 0.0.0.0:$PORT app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.5
+
+  - type: static
+    name: mini-project-frontend
+    env: static
+    rootDir: .
+    buildCommand: npm ci && npm run build
+    staticPublishPath: build
+    envVars:
+      - key: REACT_APP_API_URL
+        fromService:
+          type: web
+          name: mini-project-backend
+          property: host
